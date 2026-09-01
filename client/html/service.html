@@ -1,0 +1,814 @@
+ 
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service page</title>
+    <link rel="stylesheet" href="../css/service.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/swipersomething@gmail.com7/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+</head>
+
+<body>
+
+    <!-- navbar section start -->
+    <header class="main-header">
+        <a href="../index.html#contact" class="brand-logo"> <i class="fas fa-tooth"></i> Dental </a>
+        <nav class="nav-menu">
+            <a href="../index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="service.html">Services</a>
+            <a href="team.html">Team</a>
+            <a href="#">Pricing</a>
+            <a href="#">Blog</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+
+
+        <a href="../index.html#contact " class="appointment-btn btn"> Book Appointment </a>
+        <div id="menu-btn" class="menu-toggle fas fa-bars"></div>
+    </header>
+    <!-- navbar section end -->
+
+
+
+    <!-- emergency-ticker start-->
+    <div class="emergency-ticker">
+
+        <div class="emergency-wrapper">
+            <div class="emergency-slide">
+                <i class="fas fa-ambulance"></i>
+                <span class="emergency-text">24/7 Emergency Dental Care Available</span>
+                <span class="emergency-number">Call: +1 234 567 8900</span>
+            </div>
+            <div class="emergency-slide">
+                <i class="fas fa-first-aid"></i>
+                <span class="emergency-text">Same Day Emergency Appointments</span>
+                <span class="emergency-number">WhatsApp: +1 234 567 8900</span>
+            </div>
+            <div class="emergency-slide">
+                <i class="fas fa-phone-alt"></i>
+                <span class="emergency-text">Immediate Dental Emergency Support</span>
+                <span class="emergency-number">Hotline: +1 234 567 8900</span>
+            </div>
+        </div>
+    </div>
+    <!-- emergency-ticker end-->
+
+
+    <!-- Scroll Progress Indicator start -->
+    <div class="scroll-indicator">
+        <div class="progress-circle">
+            <svg class="progress-ring" width="60" height="60">
+                <circle class="progress-ring-circle-bg" cx="30" cy="30" r="26"></circle>
+                <circle class="progress-ring-circle" cx="30" cy="30" r="26"></circle>
+            </svg>
+            <div class="progress-text">
+                <span class="progress-number">0</span>
+                <span class="progress-percent">%</span>
+            </div>
+        </div>
+    </div>
+    <!-- Scroll Progress Indicator end -->
+
+    <script>
+        class ScrollProgressIndicator {
+            constructor() {
+                this.indicator = document.querySelector('.scroll-indicator');
+                this.progressCircle = document.querySelector('.progress-ring-circle');
+                this.numberElement = document.querySelector('.progress-number');
+                this.currentPercent = 0;
+                this.targetPercent = 0;
+                this.isAnimating = false;
+
+                // Calculate circle circumference (2 * π * radius)
+                const radius = this.progressCircle.r.baseVal.value;
+                this.circumference = radius * 2 * Math.PI;
+
+                // Set initial circle properties
+                this.progressCircle.style.strokeDasharray = `${this.circumference} ${this.circumference}`;
+                this.progressCircle.style.strokeDashoffset = this.circumference;
+
+                this.init();
+            }
+
+            init() {
+                window.addEventListener('scroll', () => this.updateProgress());
+                this.updateProgress();
+            }
+
+            setProgress(percent) {
+                const offset = this.circumference - (percent / 100 * this.circumference);
+                this.progressCircle.style.strokeDashoffset = offset;
+            }
+
+            updateProgress() {
+                const windowHeight = window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight - windowHeight;
+                const scrolled = window.scrollY;
+
+                this.targetPercent = Math.round((scrolled / documentHeight) * 100);
+
+                // Update circle progress
+                this.setProgress(this.targetPercent);
+
+                // Show/hide indicator
+                if (scrolled > 100) {
+                    this.indicator.classList.remove('hidden');
+                } else {
+                    this.indicator.classList.add('hidden');
+                }
+
+                // Animate number
+                if (!this.isAnimating) {
+                    this.animateNumber();
+                }
+            }
+
+            animateNumber() {
+                if (this.currentPercent === this.targetPercent) {
+                    this.isAnimating = false;
+                    return;
+                }
+
+                this.isAnimating = true;
+
+                const diff = this.targetPercent - this.currentPercent;
+                const step = Math.sign(diff) * Math.min(Math.abs(diff), 2);
+
+                this.currentPercent += step;
+                this.numberElement.textContent = Math.round(this.currentPercent);
+
+                requestAnimationFrame(() => this.animateNumber());
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new ScrollProgressIndicator();
+        });
+    </script>
+
+
+
+    <!-- Banner Carousel Start -->
+    <!-- Modern Dynamic Banner -->
+    <div class="banner-carousel swiper">
+        <div class="swiper-wrapper">
+            <!-- Slide 1 -->
+            <div class="swiper-slide banner-slide">
+                <div class="banner-container">
+                    <div class="banner-text-box">
+                        <div class="banner-number">6</div>
+                        <div class="banner-header">
+                            <span class="banner-tag"> Service by The Professional </span>
+                            <h2>Modern Dental
+                                <span class="highlight"></span>
+                                <span class="changing-word"></span>
+                            </h2>
+                        </div>
+                        <div class="banner-description">
+                            <p>Experience exceptional dental care with our team of experts using
+                                state-of-the-art technology for your perfect smile.</p>
+                            <div class="banner-stats">
+                                <div class="stat">
+                                    <span class="number">15+</span>
+                                    <span class="label">Years Experience</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="number">5k+</span>
+                                    <span class="label">Happy Patients</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Add this after your banner section -->
+                        <div class="video-modal" id="videoModal">
+                            <div class="modal-content">
+                                <span class="close-modal">&times;</span>
+                                <div class="video-container">
+                                    <!-- Replace VIDEO_ID with your actual YouTube video ID -->
+                                    <iframe src="../images/Dental clinic  Commercial video.mp4"
+                                        title="Dental Care Video" frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen>
+                                    </iframe>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Update the banner-cta section -->
+                        <div class="banner-cta">
+                            <a href="../index.html#contact" class="btn-book">Book Appointment</a>
+                            <a href="#" class="btn-play" id="playVideo">
+                                <div class="play-icon">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                                <span>Watch Video</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="banner-image-box">
+                        <div class="image-carousel swiper">
+                            <div class="swiper-wrapper">
+                                <!-- Image 1 -->
+                                <div class="swiper-slide">
+                                    <div class="image-container">
+                                        <img src="../images/home3.jpg" alt="Dental Care">
+                                        <div class="floating-card">
+                                            <i class="fas fa-tooth"></i>
+                                            <span>Expert Dental Care</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Image 2 -->
+                                <div class="swiper-slide">
+                                    <div class="image-container">
+                                        <img src="../images/home2.jpg" alt="Modern Equipment">
+                                        <div class="floating-card">
+                                            <i class="fas fa-microscope"></i>
+                                            <span>Advanced Technology</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Image 3 -->
+                                <div class="swiper-slide">
+                                    <div class="image-container">
+                                        <img src="../images/home4.jpg" alt="Professional Team">
+                                        <div class="floating-card">
+                                            <i class="fas fa-user-md"></i>
+                                            <span>Expert Team</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Image 4 -->
+                                <div class="swiper-slide">
+                                    <div class="image-container">
+                                        <img src="../images/home5.jpg" alt="Dental Treatment">
+                                        <div class="floating-card">
+                                            <i class="fas fa-star"></i>
+                                            <span>Premium Care</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Image 5 -->
+                                <div class="swiper-slide">
+                                    <div class="image-container">
+                                        <img src="../images/home.jpg" alt="Smile Makeover">
+                                        <div class="floating-card">
+                                            <i class="fas fa-smile"></i>
+                                            <span>Beautiful Smiles</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Add pagination -->
+                            <div class="swiper-pagination"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- Add more slides with similar structure -->
+        </div>
+
+        <!-- Custom Navigation -->
+        <div class="banner-controls">
+            <div class="slide-progress">
+                <div class="progress-bar"></div>
+            </div>
+            <div class="nav-arrows">
+                <button class="prev-slide">←</button>
+                <button class="next-slide">→</button>
+            </div>
+        </div>
+    </div>
+    <!-- Banner Carousel End -->
+
+
+    <script>
+        // Initialize banner carousel
+        // Initialize Swiper with new configuration
+        const bannerCarousel = new Swiper('.banner-carousel', {
+            speed: 1000,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            effect: 'fade',
+            fadeEffect: {
+                crossFade: true
+            },
+            navigation: {
+                nextEl: '.next-slide',
+                prevEl: '.prev-slide'
+            },
+            on: {
+                init: function () {
+                    updateProgress(this);
+                },
+                slideChange: function () {
+                    updateProgress(this);
+                }
+            }
+        });
+
+        function updateProgress(swiper) {
+            const progress = document.querySelector('.progress-bar');
+            progress.style.width = '0%';
+
+            setTimeout(() => {
+                progress.style.width = '100%';
+            }, 100);
+        }
+    </script>
+
+
+
+    <script>
+        // Add this to your existing JavaScript for video modal
+        document.addEventListener('DOMContentLoaded', function () {
+            const videoModal = document.getElementById('videoModal');
+            const playButton = document.getElementById('playVideo');
+            const closeModal = document.querySelector('.close-modal');
+            const videoContainer = document.querySelector('.video-container');
+
+            // Function to create YouTube iframe
+            function createYouTubeEmbed(videoId) {
+                return `<iframe 
+            src="../images/Dental clinic  Commercial video.mp4?autoplay=1" 
+            title="Dental Care Video"
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+
+        </iframe>`;
+            }
+
+            // Open modal
+            playButton.addEventListener('click', function (e) {
+                e.preventDefault();
+                videoModal.classList.add('active');
+                // Replace 'YOUR_VIDEO_ID' with your actual YouTube video ID
+                videoContainer.innerHTML = createYouTubeEmbed('YOUR_VIDEO_ID');
+            });
+
+            // Close modal
+            closeModal.addEventListener('click', function () {
+                videoModal.classList.remove('active');
+                videoContainer.innerHTML = ''; // Remove iframe when closing
+            });
+
+            // Close modal when clicking outside
+            videoModal.addEventListener('click', function (e) {
+                if (e.target === videoModal) {
+                    videoModal.classList.remove('active');
+                    videoContainer.innerHTML = '';
+                }
+            });
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && videoModal.classList.contains('active')) {
+                    videoModal.classList.remove('active');
+                    videoContainer.innerHTML = '';
+                }
+            });
+        });
+    </script>
+
+
+
+
+    <script>
+        // Initialize image carousel floating-card
+        const imageCarousel = new Swiper('.image-carousel', {
+            effect: 'fade',
+            fadeEffect: {
+                crossFade: true
+            },
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            loop: true,
+            speed: 1000,
+        });
+    </script>
+
+    <script>
+        //  letter changing
+        class TextAnimator {
+            constructor(element, words, options = {}) {
+                this.element = element;
+                this.words = words;
+                this.currentWordIndex = 0;
+                this.currentLetterIndex = 0;
+                this.options = {
+                    typeSpeed: 100,
+                    deleteSpeed: 50,
+                    delayBeforeDelete: 2000,
+                    delayBeforeNext: 500,
+                    ...options
+                };
+            }
+
+            init() {
+                this.element.classList.add('visible');
+                this.typeWord();
+            }
+
+            typeWord() {
+                const currentWord = this.words[this.currentWordIndex];
+                const letter = currentWord.word[this.currentLetterIndex];
+
+                this.element.style.color = currentWord.color;
+                this.element.textContent += letter;
+
+                this.currentLetterIndex++;
+
+                if (this.currentLetterIndex < currentWord.word.length) {
+                    setTimeout(() => this.typeWord(), this.options.typeSpeed);
+                } else {
+                    setTimeout(() => this.deleteWord(), this.options.delayBeforeDelete);
+                }
+            }
+
+            deleteWord() {
+                const text = this.element.textContent;
+                this.element.textContent = text.slice(0, -1);
+
+                if (this.element.textContent.length > 0) {
+                    setTimeout(() => this.deleteWord(), this.options.deleteSpeed);
+                } else {
+                    this.currentLetterIndex = 0;
+                    this.currentWordIndex = (this.currentWordIndex + 1) % this.words.length;
+                    setTimeout(() => this.typeWord(), this.options.delayBeforeNext);
+                }
+            }
+        }
+
+        // Initialize the animation when the document is ready
+        document.addEventListener('DOMContentLoaded', function () {
+            const words = [
+                { word: 'Resolution', color: '#FF6B6B' },  // Coral Red
+                { word: 'Remedy', color: '#4ECDC4' },      // Turquoise
+                { word: 'Outcome', color: '#FFB347' },     // Orange
+                { word: 'Explanation', color: '#9B59B6' }         // Purple
+            ];
+
+            const element = document.querySelector('.changing-word');
+
+            if (element) {
+                const animator = new TextAnimator(element, words, {
+                    typeSpeed: 200,          // Time between each letter appearing
+                    deleteSpeed: 70,         // Time between each letter being deleted
+                    delayBeforeDelete: 2000, // Time to wait before deleting the word
+                    delayBeforeNext: 500     // Time to wait before typing the next word
+                });
+
+                animator.init();
+            }
+        });
+    </script>
+
+
+    <!-- Services Section Start -->
+    <section class="services-section" id="services">
+        <div class="section-title">
+            <h2>Our Dental Services</h2>
+            <p>Comprehensive dental care solutions tailored to meet all your oral health needs with the latest
+                technology and experienced professionals.</p>
+        </div>
+
+        <div class="services-grid">
+            <!-- General Dentistry -->
+            <div class="service-card">
+                <div class="service-image">
+                    <img src="../images/General Dentistry.jpg" alt="General Dentistry">
+                </div>
+                <div class="service-content">
+                    <h3>General Dentistry</h3>
+                    <p>Comprehensive dental care for maintaining optimal oral health and preventing future problems.</p>
+                    <ul class="service-featuresz">
+                        <li><i class="fas fa-check"></i> Regular Check-ups</li>
+                        <li><i class="fas fa-check"></i> Professional Cleaning</li>
+                        <li><i class="fas fa-check"></i> Cavity Treatment</li>
+                    </ul>
+                    <a href="../index.html#contact" class="service-btn">Book Appointment</a>
+                </div>
+            </div>
+
+            <!-- Cosmetic Dentistry -->
+            <div class="service-card">
+                <div class="service-image">
+                    <img src="../images/Cosmetic Dentistry.jpg" alt="Cosmetic Dentistry">
+                </div>
+                <div class="service-content">
+                    <h3>Cosmetic Dentistry</h3>
+                    <p>Transform your smile with our advanced cosmetic dental procedures and treatments.</p>
+                    <ul class="service-featuresz">
+                        <li><i class="fas fa-check"></i> Teeth Whitening</li>
+                        <li><i class="fas fa-check"></i> Dental Veneers</li>
+                        <li><i class="fas fa-check"></i> Smile Makeover</li>
+                    </ul>
+                    <a href="../index.html#contact" class="service-btn">Book Appointment</a>
+                </div>
+            </div>
+
+            <!-- Orthodontics -->
+            <div class="service-card">
+                <div class="service-image">
+                    <img src="../images/Orthodontics.jpg" alt="Orthodontics">
+                </div>
+                <div class="service-content">
+                    <h3>Orthodontics</h3>
+                    <p>Achieve a perfectly aligned smile with our modern orthodontic solutions.</p>
+                    <ul class="service-featuresz">
+                        <li><i class="fas fa-check"></i> Traditional Braces</li>
+                        <li><i class="fas fa-check"></i> Clear Aligners</li>
+                        <li><i class="fas fa-check"></i> Retainers</li>
+                    </ul>
+                    <a href="../index.html#contact" class="service-btn">Book Appointment</a>
+                </div>
+            </div>
+
+            <!-- Emergency Care -->
+            <div class="service-card">
+                <div class="service-image">
+                    <img src="../images/Emergency Dental Care.jpg" alt="Emergency Dental Care">
+                </div>
+                <div class="service-content">
+                    <h3>Emergency Care</h3>
+                    <p>24/7 emergency dental services for immediate relief and urgent dental problems.</p>
+                    <ul class="service-featuresz">
+                        <li><i class="fas fa-check"></i> Immediate Treatment</li>
+                        <li><i class="fas fa-check"></i> Pain Management</li>
+                        <li><i class="fas fa-check"></i> Emergency Surgery</li>
+                    </ul>
+                    <a href="../index.html#contact" class="service-btn">Book Appointment</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Services Section End -->
+
+
+
+
+    <!-- Modern Services Showcase -->
+    <section class="services-showcase">
+        <div class="showcase-header">
+            <h2 class="showcase-title">Premium Dental Services</h2>
+            <p class="showcase-subtitle">Experience world-class dental care with our comprehensive range of services
+                designed for your perfect smile</p>
+        </div>
+
+        <div class="service-grid">
+            <!-- Service Item 1 -->
+            <div class="service-item">
+                <div class="service-image">
+                    <img src="../images/Cosmetic Dentistry2.jpg" alt="Cosmetic Dentistry">
+                    <span class="service-badge">Popular</span>
+                </div>
+                <div class="service-content">
+                    <h3 class="service-title">Cosmetic Dentistry</h3>
+                    <p class="service-description">Transform your smile with our advanced cosmetic dental procedures.
+                    </p>
+                    <div class="service-features">
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Teeth Whitening</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Dental Veneers</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Smile Design</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Bonding</span>
+                        </div>
+                    </div>
+                    <div class="service-footer">
+                        <div class="service-price">
+                            $599 <span>/ session</span>
+                        </div>
+                        <a href="../index.html#contact" class="book-btn">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service Item 2 -->
+            <div class="service-item">
+                <div class="service-image">
+                    <img src="../images/Dental Implants.webp" alt="Dental Implants">
+                    <span class="service-badge">Featured</span>
+                </div>
+                <div class="service-content">
+                    <h3 class="service-title">Dental Implants</h3>
+                    <p class="service-description">Restore your natural smile with permanent tooth replacement.</p>
+                    <div class="service-features">
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Single Implants</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Full Arch</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>3D Planning</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Lifetime Warranty</span>
+                        </div>
+                    </div>
+                    <div class="service-footer">
+                        <div class="service-price">
+                            $1,299 <span>/ implant</span>
+                        </div>
+                        <a href="../index.html#contact" class="book-btn">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service Item 3 -->
+            <div class="service-item">
+                <div class="service-image">
+                    <img src="../images/orthodontics.jpg" alt="Orthodontics">
+                    <span class="service-badge">New</span>
+                </div>
+                <div class="service-content">
+                    <h3 class="service-title">Invisible Aligners</h3>
+                    <p class="service-description">Straighten your teeth discreetly with custom clear aligners.</p>
+                    <div class="service-features">
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Custom Made</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Removable</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>3D Scanning</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Progress Tracking</span>
+                        </div>
+                    </div>
+                    <div class="service-footer">
+                        <div class="service-price">
+                            $3,499 <span>/ treatment</span>
+                        </div>
+                        <a href="../index.html#contact" class="book-btn">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <!-- footer section start -->
+    <footer class="site-footer">
+        <div class="footer-waves">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+                <path fill="../index.html#contactffffff" fill-opacity="1"
+                    d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z">
+                </path>
+            </svg>
+        </div>
+
+        <div class="footer-content">
+            <div class="footer-info-container">
+                <div class="footer-col brand-col">
+                    <div class="footer-logo">
+                        <i class="fas fa-tooth"></i>
+                        <span>DentalCare</span>
+                    </div>
+                    <p class="footer-description">
+                        Providing quality dental care and creating beautiful smiles since 2000. Your trusted partner in
+                        oral health.
+                    </p>
+                    <div class="social-icons">
+                        <a href="../index.html#contact" class="social-icon-link" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="../index.html#contact" class="social-icon-link" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="../index.html#contact" class="social-icon-link" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="../index.html#contact" class="social-icon-link" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h3 class="footer-title">Quick Contact</h3>
+                    <ul class="contact-list">
+                        <li class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <p>1234 Dental Street, Dental City, Health State 789014</p>
+                        </li>
+                        <li class="contact-item">
+                            <i class="fas fa-phone-alt"></i>
+                            <div class="contact-info">
+                                <a href="tel:+911234567890">+91 123 456 7890</a>
+                                <a href="tel:+911234567890">+91 123 456 7890</a>
+                            </div>
+                        </li>
+                        <li class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div class="contact-info">
+                                <a href="mailto:something@gmail.com">something@gmail.com</a>
+                                <a href="mailto:something@gmail.com">something@gmail.com</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3 class="footer-title">Working Hours</h3>
+                    <ul class="hours-list">
+                        <li class="hours-item">
+                            <span class="day">Monday - Friday</span>
+                            <span class="time">8:00 AM - 8:00 PM</span>
+                        </li>
+                        <li class="hours-item">
+                            <span class="day">Saturday</span>
+                            <span class="time">9:00 AM - 6:00 PM</span>
+                        </li>
+                        <li class="hours-item">
+                            <span class="day">Sunday</span>
+                            <span class="time">Emergency Only</span>
+                        </li>
+                        <li class="hours-item emergency">
+                            <i class="fas fa-ambulance"></i>
+                            <span>24/7 Emergency Service</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <p class="copyright">
+                    © <span id="current-year">2026</span> DentalCare. Created by
+                    <a href="../index.html#contact" class="creator-link">Tuhin Mallick</a>
+                </p>
+                <div class="footer-links">
+                    <a href="../index.html#contact">Privacy Policy</a>
+                    <a href="../index.html#contact">Terms of Service</a>
+                    <a href="../index.html#contact">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- footer section end -->
+
+
+
+
+    <script src="https://unpkg.com/swipersomething@gmail.com7/swiper-bundle.min.js"></script>
+    <script src="../js/dental.js"></script>
+
+
+
+
+
+</body>
+
+</html>

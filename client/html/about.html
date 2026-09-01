@@ -1,0 +1,506 @@
+ 
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dental About</title>
+    <link rel="stylesheet" href="../css/about.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/swipersomething@gmail.com7/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+</head>
+
+<body>
+
+    <!-- navbar section start -->
+    <header class="main-header">
+        <a href="#" class="brand-logo"> <i class="fas fa-tooth"></i> Dental </a>
+        <nav class="nav-menu">
+            <a href="../index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="service.html">Services</a>
+            <a href="team.html">Team</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#blog">Blog</a>
+            <a href="contact.html">Contact</a>
+
+        </nav>
+
+        <a href="../index.html#contact" class="appointment-btn btn"> Book Appointment </a>
+        <div id="menu-btn" class="menu-toggle fas fa-bars"></div>
+    </header>
+    <!-- navbar section end -->
+
+
+
+    <!-- emergency-ticker start-->
+    <div class="emergency-ticker">
+
+        <div class="emergency-wrapper">
+            <div class="emergency-slide">
+                <i class="fas fa-ambulance"></i>
+                <span class="emergency-text">24/7 Emergency Dental Care Available</span>
+                <span class="emergency-number">Call: +1 234 567 8900</span>
+            </div>
+            <div class="emergency-slide">
+                <i class="fas fa-first-aid"></i>
+                <span class="emergency-text">Same Day Emergency Appointments</span>
+                <span class="emergency-number">WhatsApp: +1 234 567 8900</span>
+            </div>
+            <div class="emergency-slide">
+                <i class="fas fa-phone-alt"></i>
+                <span class="emergency-text">Immediate Dental Emergency Support</span>
+                <span class="emergency-number">Hotline: +1 234 567 8900</span>
+            </div>
+        </div>
+    </div>
+    <!-- emergency-ticker end-->
+
+
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-indicator">
+        <div class="progress-circle">
+            <svg class="progress-ring" width="60" height="60">
+                <circle class="progress-ring-circle-bg" cx="30" cy="30" r="26"></circle>
+                <circle class="progress-ring-circle" cx="30" cy="30" r="26"></circle>
+            </svg>
+            <div class="progress-text">
+                <span class="progress-number">0</span>
+                <span class="progress-percent">%</span>
+            </div>
+        </div>
+    </div>
+    <!-- Scroll Progress Indicator end -->
+
+    <script>
+        class ScrollProgressIndicator {
+            constructor() {
+                this.indicator = document.querySelector('.scroll-indicator');
+                this.progressCircle = document.querySelector('.progress-ring-circle');
+                this.numberElement = document.querySelector('.progress-number');
+                this.currentPercent = 0;
+                this.targetPercent = 0;
+                this.isAnimating = false;
+
+                // Calculate circle circumference (2 * π * radius)
+                const radius = this.progressCircle.r.baseVal.value;
+                this.circumference = radius * 2 * Math.PI;
+
+                // Set initial circle properties
+                this.progressCircle.style.strokeDasharray = `${this.circumference} ${this.circumference}`;
+                this.progressCircle.style.strokeDashoffset = this.circumference;
+
+                this.init();
+            }
+
+            init() {
+                window.addEventListener('scroll', () => this.updateProgress());
+                this.updateProgress();
+            }
+
+            setProgress(percent) {
+                const offset = this.circumference - (percent / 100 * this.circumference);
+                this.progressCircle.style.strokeDashoffset = offset;
+            }
+
+            updateProgress() {
+                const windowHeight = window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight - windowHeight;
+                const scrolled = window.scrollY;
+
+                this.targetPercent = Math.round((scrolled / documentHeight) * 100);
+
+                // Update circle progress
+                this.setProgress(this.targetPercent);
+
+                // Show/hide indicator
+                if (scrolled > 100) {
+                    this.indicator.classList.remove('hidden');
+                } else {
+                    this.indicator.classList.add('hidden');
+                }
+
+                // Animate number
+                if (!this.isAnimating) {
+                    this.animateNumber();
+                }
+            }
+
+            animateNumber() {
+                if (this.currentPercent === this.targetPercent) {
+                    this.isAnimating = false;
+                    return;
+                }
+
+                this.isAnimating = true;
+
+                const diff = this.targetPercent - this.currentPercent;
+                const step = Math.sign(diff) * Math.min(Math.abs(diff), 2);
+
+                this.currentPercent += step;
+                this.numberElement.textContent = Math.round(this.currentPercent);
+
+                requestAnimationFrame(() => this.animateNumber());
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new ScrollProgressIndicator();
+        });
+    </script>
+
+
+
+    <!-- Banner Carousel Start -->
+    <div class="banner-carousel swiper">
+        <div class="swiper-wrapper">
+            <!-- Slide 1 -->
+            <div class="swiper-slide banner-slide">
+                <img src="../images/home4.jpg" alt="Dental Care Banner 1">
+                <div class="banner-content">
+                    <h2>Welcome to Professional Dental Care</h2>
+                    <p>Experience world-class dental treatment with our expert team</p>
+                    <a href="../index.html#contact" class="btn banner-btn">Book Appointment</a>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="swiper-slide banner-slide">
+                <img src="../images/home5.jpg" alt="Dental Care Banner 2">
+                <div class="banner-content">
+                    <h2>Advanced Dental Technology</h2>
+                    <p>State-of-the-art equipment for precise and comfortable treatment</p>
+                    <a href="../index.html#contact" class="btn banner-btn">Book Appointment</a>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="swiper-slide banner-slide">
+                <img src="../images/home.jpg" alt="Dental Care Banner 3">
+                <div class="banner-content">
+
+
+                    <h2>Family Dental Care</h2>
+                    <p>Comprehensive dental services for the whole family</p>
+                    <a href="../index.html#contact" class="btn banner-btn">Book Appointment</a>
+                </div>
+            </div>
+
+            <!-- Slide 4 -->
+            <div class="swiper-slide banner-slide">
+                <img src="../images/home2.jpg" alt="Dental Care Banner 4">
+                <div class="banner-content">
+                    <h2>Emergency Dental Services</h2>
+
+
+                    <p>24/7 emergency care when you need it most</p>
+                    <a href="../index.html#contact" class="btn banner-btn">Book Appointment</a>
+
+                </div>
+            </div>
+
+            <!-- Slide 5 -->
+            <div class="swiper-slide banner-slide">
+                <img src="../images/home3.jpg" alt="Dental Care Banner 5">
+                <div class="banner-content">
+                    <h2>Smile with Confidence</h2>
+
+
+                    <p>Transform your smile with our cosmetic dental procedures</p>
+                    <a href="../index.html#contact" class="btn banner-btn">Book Appointment</a>
+                </div>
+            </div>
+        </div>
+        <!-- Navigation buttons -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <!-- Pagination -->
+        <div class="swiper-pagination"></div>
+    </div>
+    <!-- Banner Carousel End -->
+
+
+    <script>
+        const bannerCarousel = new Swiper('.banner-carousel', {
+            loop: true,
+            speed: 1000,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            effect: 'fade',
+            fadeEffect: {
+                crossFade: true
+            },
+            on: {
+                init: function () {
+                    let activeSlide = document.querySelector('.swiper-slide-active');
+                    activeSlide.classList.add('animated');
+                },
+            }
+        });
+
+        // Add animation class to active slide on slide change
+        bannerCarousel.on('slideChangeTransitionStart', function () {
+            let activeSlide = document.querySelector('.swiper-slide-active');
+            activeSlide.classList.add('animated');
+        });
+
+        bannerCarousel.on('slideChangeTransitionEnd', function () {
+            let previousSlide = document.querySelector('.swiper-slide-prev');
+            let nextSlide = document.querySelector('.swiper-slide-next');
+            if (previousSlide) previousSlide.classList.remove('animated');
+            if (nextSlide) nextSlide.classList.remove('animated');
+        });
+    </script>
+
+
+
+
+    <!-- About Section Start -->
+    <section class="about" id="about">
+        <div class="about-container">
+            <div class="about-content">
+                <div class="about-text">
+                    <span class="section-subtitle">About Us</span>
+                    <h2 class="section-title">Providing Quality Dental Care Since 2000</h2>
+                    <p class="about-description">
+                        Welcome to DentalCare, where we combine expertise with compassion to deliver exceptional dental
+                        services. Our state-of-the-art facility is equipped with the latest technology to ensure precise
+                        and comfortable treatments for all our patients.
+                    </p>
+                    <div class="about-features">
+                        <div class="feature">
+                            <i class="fas fa-tooth"></i>
+                            <h3>Expert Dentists</h3>
+                            <p>Highly qualified team of dental professionals</p>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-certificate"></i>
+                            <h3>Certified Services</h3>
+                            <p>Internationally accredited dental procedures</p>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-clock"></i>
+                            <h3>24/7 Support</h3>
+                            <p>Round-the-clock emergency dental care</p>
+                        </div>
+                    </div>
+                    <a href="#" class="btn about-btn">Learn More</a>
+                </div>
+                <div class="about-image">
+                    <img src="../images/appointment.jpg" alt="Dental Care Team">
+                    <div class="experience-badge">
+                        <span class="years">20+</span>
+                        <span class="text">Years of Experience</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- About Section End -->
+
+
+
+
+
+    <!-- Stats Section Start -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat-item">
+                <i class="fas fa-users"></i>
+                <div class="stat-number">15000+</div>
+                <div class="stat-text">Happy Patients</div>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-trophy"></i>
+                <div class="stat-number">25+</div>
+                <div class="stat-text">Awards Won</div>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-user-md"></i>
+                <div class="stat-number">50+</div>
+                <div class="stat-text">Expert Doctors</div>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-clinic-medical"></i>
+                <div class="stat-number">10+</div>
+                <div class="stat-text">Clinic Locations</div>
+            </div>
+        </div>
+    </section>
+    <!-- Stats Section End -->
+
+    <!-- Why Choose Us Section Start -->
+    <section class="why-choose">
+        <div class="why-choose-container">
+            <div class="section-header">
+                <span class="section-subtitle">Why Choose Us</span>
+                <h2 class="section-title">Excellence in Dental Care</h2>
+            </div>
+            <div class="why-choose-grid">
+                <div class="why-choose-item">
+                    <div class="icon-box">
+                        <i class="fas fa-microscope"></i>
+                    </div>
+                    <h3>Latest Technology</h3>
+                    <p>State-of-the-art equipment and modern dental technologies for precise treatment</p>
+                </div>
+                <div class="why-choose-item">
+                    <div class="icon-box">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <h3>Expert Team</h3>
+                    <p>Highly qualified and experienced dental professionals dedicated to your care</p>
+                </div>
+                <div class="why-choose-item">
+                    <div class="icon-box">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Flexible Hours</h3>
+                    <p>Convenient appointment times including evenings and weekends</p>
+                </div>
+                <div class="why-choose-item">
+                    <div class="icon-box">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Patient-Focused</h3>
+                    <p>Personalized care plans tailored to your specific dental needs</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Why Choose Us Section End -->
+
+
+
+    
+
+    <!-- footer section start -->
+    <footer class="site-footer">
+        <div class="footer-waves">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+
+                <path fill="#ffffff" fill-opacity="1"
+                    d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z">
+                </path>
+            </svg>
+        </div>
+
+        <div class="footer-content">
+            <div class="footer-info-container">
+                <div class="footer-col brand-col">
+                    <div class="footer-logo">
+                        <i class="fas fa-tooth"></i>
+                        <span>DentalCare</span>
+                    </div>
+                    <p class="footer-description">
+                        Providing quality dental care and creating beautiful smiles since 2000. Your trusted partner in
+                        oral health.
+                    </p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon-link" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-icon-link" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-icon-link" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-icon-link" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h3 class="footer-title">Quick Contact</h3>
+                    <ul class="contact-list">
+                        <li class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <p>1234 Dental Street, Dental City, Health State 789014</p>
+                        </li>
+                        <li class="contact-item">
+                            <i class="fas fa-phone-alt"></i>
+                            <div class="contact-info">
+                                <a href="tel:+911234567890">+91 123 456 7890</a>
+                                <a href="tel:+911234567890">+91 123 456 7890</a>
+                            </div>
+                        </li>
+                        <li class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div class="contact-info">
+                                <a href="mailto:something@gmail.com">something@gmail.com</a>
+                                <a href="mailto:something@gmail.com">something@gmail.com</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3 class="footer-title">Working Hours</h3>
+                    <ul class="hours-list">
+                        <li class="hours-item">
+                            <span class="day">Monday - Friday</span>
+                            <span class="time">8:00 AM - 8:00 PM</span>
+                        </li>
+                        <li class="hours-item">
+                            <span class="day">Saturday</span>
+                            <span class="time">9:00 AM - 6:00 PM</span>
+                        </li>
+                        <li class="hours-item">
+                            <span class="day">Sunday</span>
+                            <span class="time">Emergency Only</span>
+                        </li>
+                        <li class="hours-item emergency">
+                            <i class="fas fa-ambulance"></i>
+                            <span>24/7 Emergency Service</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <p class="copyright">
+                    © <span id="current-year">2026</span> DentalCare. Created by
+                    <a href="#" class="creator-link">Tuhin Mallick</a>
+                </p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- footer section end -->
+
+
+
+
+    <script src="https://unpkg.com/swipersomething@gmail.com7/swiper-bundle.min.js"></script>
+    <script src="../js/dental.js"></script>
+</body>
+
+</html>

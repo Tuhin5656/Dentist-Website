@@ -1,0 +1,967 @@
+ 
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dentist Clinic</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/swipersomething@gmail.com7/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="css/dental.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <style>
+        .custom-alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            background: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            transform: translateX(150%);
+            transition: transform 0.4s ease-in-out;
+            z-index: 1000;
+            max-width: 400px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .custom-alert.show {
+            transform: translateX(0);
+        }
+
+        .custom-alert.success {
+            border-left: 4px solid #4CAF50;
+        }
+
+        .custom-alert.error {
+            border-left: 4px solid #f44336;
+        }
+
+        .alert-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .alert-content {
+            flex-grow: 1;
+        }
+
+        .alert-title {
+            margin: 0 0 5px 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .alert-message {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .alert-close {
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            padding: 0;
+            font-size: 20px;
+            line-height: 1;
+            transition: color 0.3s ease;
+        }
+
+        .alert-close:hover {
+            color: #333;
+        }
+
+        .alert-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: #4CAF50;
+            width: 100%;
+            transform-origin: left;
+            animation: progress 5s linear;
+        }
+
+        @keyframes progress {
+            from {
+                transform: scaleX(1);
+            }
+
+            to {
+                transform: scaleX(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .custom-alert {
+                width: calc(100% - 40px);
+                max-width: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="main-header">
+
+        <a href="#" class="brand-logo"> <i class="fas fa-tooth"></i> Dental </a>
+        <nav class="nav-menu">
+            <a href="index.html">Home</a>
+            <a href="./html/about.html">About</a>
+            <a href="html/service.html">Services</a>
+            <a href="html/team.html">Team</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#blog">Blog</a>
+            <a href="html/contact.html">Contact</a>
+
+        </nav>
+
+
+        <a href="#contact" class="appointment-btn btn"> Book Appointment </a>
+        <div id="menu-btn" class="menu-toggle fas fa-bars"></div>
+    </header>
+
+
+
+    <!-- emergency-ticker start-->
+    <div class="emergency-ticker">
+        <div class="emergency-wrapper">
+            <div class="emergency-slide">
+                <i class="fas fa-ambulance"></i>
+                <span class="emergency-text">24/7 Emergency Dental Care Available</span>
+                <span class="emergency-number">Call: +1 234 567 8900</span>
+            </div>
+            <div class="emergency-slide">
+                <i class="fas fa-first-aid"></i>
+                <span class="emergency-text">Same Day Emergency Appointments</span>
+                <span class="emergency-number">WhatsApp: +1 234 567 8900</span>
+            </div>
+            <div class="emergency-slide">
+                <i class="fas fa-phone-alt"></i>
+                <span class="emergency-text">Immediate Dental Emergency Support</span>
+                <span class="emergency-number">Hotline: +1 234 567 8900</span>
+            </div>
+        </div>
+    </div>
+    <!-- emergency-ticker end-->
+
+
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-indicator">
+        <div class="progress-circle">
+            <svg class="progress-ring" width="60" height="60">
+                <circle class="progress-ring-circle-bg" cx="30" cy="30" r="26"></circle>
+                <circle class="progress-ring-circle" cx="30" cy="30" r="26"></circle>
+            </svg>
+            <div class="progress-text">
+                <span class="progress-number">0</span>
+                <span class="progress-percent">%</span>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        class ScrollProgressIndicator {
+            constructor() {
+                this.indicator = document.querySelector('.scroll-indicator');
+                this.progressCircle = document.querySelector('.progress-ring-circle');
+                this.numberElement = document.querySelector('.progress-number');
+                this.currentPercent = 0;
+                this.targetPercent = 0;
+                this.isAnimating = false;
+
+                // Calculate circle circumference (2 * π * radius)
+                const radius = this.progressCircle.r.baseVal.value;
+                this.circumference = radius * 2 * Math.PI;
+
+                // Set initial circle properties
+                this.progressCircle.style.strokeDasharray = `${this.circumference} ${this.circumference}`;
+                this.progressCircle.style.strokeDashoffset = this.circumference;
+
+                this.init();
+            }
+
+            init() {
+                window.addEventListener('scroll', () => this.updateProgress());
+                this.updateProgress();
+            }
+
+            setProgress(percent) {
+                const offset = this.circumference - (percent / 100 * this.circumference);
+                this.progressCircle.style.strokeDashoffset = offset;
+            }
+
+            updateProgress() {
+                const windowHeight = window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight - windowHeight;
+                const scrolled = window.scrollY;
+
+                this.targetPercent = Math.round((scrolled / documentHeight) * 100);
+
+                // Update circle progress
+                this.setProgress(this.targetPercent);
+
+                // Show/hide indicator
+                if (scrolled > 100) {
+                    this.indicator.classList.remove('hidden');
+                } else {
+                    this.indicator.classList.add('hidden');
+                }
+
+                // Animate number
+                if (!this.isAnimating) {
+                    this.animateNumber();
+                }
+            }
+
+            animateNumber() {
+                if (this.currentPercent === this.targetPercent) {
+                    this.isAnimating = false;
+                    return;
+                }
+
+                this.isAnimating = true;
+
+                const diff = this.targetPercent - this.currentPercent;
+                const step = Math.sign(diff) * Math.min(Math.abs(diff), 2);
+
+                this.currentPercent += step;
+                this.numberElement.textContent = Math.round(this.currentPercent);
+
+                requestAnimationFrame(() => this.animateNumber());
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new ScrollProgressIndicator();
+        });
+    </script>
+
+
+
+    <!-- Banner Carousel Start -->
+    <div class="banner-carousel swiper">
+        <div class="swiper-wrapper">
+            <!-- Slide 1 -->
+            <div class="swiper-slide banner-slide">
+                <img src="./images/home.jpg" alt="Dental Care Banner 1">
+                <div class="banner-content">
+                    <h2>Welcome to Professional Dental Care</h2>
+                    <p>Experience world-class dental treatment with our expert team</p>
+                    <a href="#contact" class="btn banner-btn">Book Appointment</a>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="swiper-slide banner-slide">
+                <img src="images/home3.jpg" alt="Dental Care Banner 2">
+                <div class="banner-content">
+                    <h2>Advanced Dental Technology</h2>
+                    <p>State-of-the-art equipment for precise and comfortable treatment</p>
+                    <a href="#contact" class="btn banner-btn">Book Appointment</a>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="swiper-slide banner-slide">
+                <img src="images/home4.jpg" alt="Dental Care Banner 3">
+                <div class="banner-content">
+                    <h2>Family Dental Care</h2>
+                    <p>Comprehensive dental services for the whole family</p>
+                    <a href="#contact" class="btn banner-btn">Book Appointment</a>
+                </div>
+            </div>
+
+            <!-- Slide 4 -->
+            <div class="swiper-slide banner-slide">
+                <img src="images/home5.jpg" alt="Dental Care Banner 4">
+                <div class="banner-content">
+                    <h2>Emergency Dental Services</h2>
+                    <p>24/7 emergency care when you need it most</p>
+                    <a href="#contact" class="btn banner-btn">Book Appointment</a>
+
+
+                </div>
+            </div>
+
+            <!-- Slide 5 -->
+            <div class="swiper-slide banner-slide">
+                <img src="images/home2.jpg" alt="Dental Care Banner 5">
+                <div class="banner-content">
+                    <h2>Smile with Confidence</h2>
+                    <p>Transform your smile with our cosmetic dental procedures</p>
+                    <a href="#contact" class="btn banner-btn">Book Appointment</a>
+                </div>
+            </div>
+        </div>
+        <!-- Navigation buttons -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <!-- Pagination -->
+        <div class="swiper-pagination"></div>
+    </div>
+    <!-- Banner Carousel End -->
+
+
+    <script>
+        // Initialize banner carousel
+        const bannerCarousel = new Swiper('.banner-carousel', {
+            loop: true,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            effect: 'fade',
+            fadeEffect: {
+                crossFade: true
+            }
+        });
+    </script>
+
+
+    <section class="about-section" id="about">
+        <h2 class="section-title">about us</h2>
+        <div class="about-container">
+            <div class="about-image">
+                <img src="images/detal-23.webp" alt="About Our Dental Clinic">
+                <div class="image-overlay"></div>
+            </div>
+            <div class="about-content">
+                <h3 class="about-heading">our clinic is made for you to be smiling all the time</h3>
+                <div class="about-text">
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate inventore explicabo recusandae
+                        cumque dolor voluptas nihil.</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate inventore explicabo recusandae
+                        cumque dolor voluptas nihil.</p>
+                </div>
+                <button class="about-btn btn" onclick="openAboutModal()">read more</button>
+            </div>
+        </div>
+
+        <!-- Add Modal -->
+        <div id="aboutModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" onclick="closeAboutModal()">&times;</span>
+                <h2>About Our Dental Clinic</h2>
+                <div class="modal-body">
+                    <img src="images/about.webp" alt="About Our Dental Clinic">
+                    <div class="modal-text">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate inventore explicabo
+                            recusandae cumque dolor voluptas nihil.</p>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate inventore explicabo
+                            recusandae cumque dolor voluptas nihil.</p>
+                        <h3>Our Mission</h3>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate inventore explicabo
+                            recusandae cumque dolor voluptas nihil.</p>
+                        <h3>Our Vision</h3>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate inventore explicabo
+                            recusandae cumque dolor voluptas nihil.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function openAboutModal() {
+            const modal = document.getElementById('aboutModal');
+            modal.style.display = 'block';
+            setTimeout(() => {
+                modal.classList.add('show');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAboutModal() {
+            const modal = document.getElementById('aboutModal');
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function (event) {
+            const modal = document.getElementById('aboutModal');
+            if (event.target == modal) {
+                closeAboutModal();
+            }
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                closeAboutModal();
+            }
+        });
+    </script>
+
+
+
+    <section class="services-section" id="services">
+        <h2 class="section-title">our services</h2>
+
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">
+                    <a href="#contact"><img src="images/services-1.webp" alt="Online Schedule"></a>
+                </div>
+                <a href="#contact">
+                    <h3 class="service-title">online schedule</h3>
+                </a>
+                <a href="#contact">
+                    <p class="service-description">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis in
+                        excepturi.</p>
+                </a>
+                <div class="service-overlay"></div>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <img src="images/services-2.webp" alt="Cosmetic Feeling">
+                </div>
+                <h3 class="service-title">cosmetic feeling</h3>
+                <p class="service-description">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis in
+                    excepturi.</p>
+                <div class="service-overlay"></div>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <img src="images/services-3.webp" alt="Cavity evaluation">
+                </div>
+                <h3 class="service-title">Cavity evaluation</h3>
+                <p class="service-description">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis in
+                    excepturi.</p>
+                <div class="service-overlay"></div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <section class="team-section" id="team">
+        <h2 class="section-title">our team</h2>
+
+        <div class="team-carousel swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide member-card">
+                    <div class="member-image">
+                        <img src="images/team-1.jpg" alt="Team Member">
+                        <div class="social-links">
+                            <a href="#" class="social-icon fab fa-facebook-f"></a>
+                            <a href="#" class="social-icon fab fa-twitter"></a>
+                            <a href="#" class="social-icon fab fa-instagram"></a>
+                            <a href="#" class="social-icon fab fa-linkedin"></a>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <h3 class="member-name">ABC</h3>
+                        <span class="member-role">specialist</span>
+                    </div>
+                </div>
+
+                <div class="swiper-slide member-card">
+                    <div class="member-image">
+                        <img src="images/team-2.jpg" alt="Team Member">
+                        <div class="social-links">
+                            <a href="#" class="social-icon fab fa-facebook-f"></a>
+                            <a href="#" class="social-icon fab fa-twitter"></a>
+                            <a href="#" class="social-icon fab fa-instagram"></a>
+                            <a href="#" class="social-icon fab fa-linkedin"></a>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <h3 class="member-name">ABC</h3>
+                        <span class="member-role">specialist</span>
+                    </div>
+                </div>
+
+                <div class="swiper-slide member-card">
+                    <div class="member-image">
+                        <img src="images/team-3.jpg" alt="Team Member">
+                        <div class="social-links">
+                            <a href="#" class="social-icon fab fa-facebook-f"></a>
+                            <a href="#" class="social-icon fab fa-twitter"></a>
+                            <a href="#" class="social-icon fab fa-instagram"></a>
+                            <a href="#" class="social-icon fab fa-linkedin"></a>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <h3 class="member-name">ABC</h3>
+                        <span class="member-role">specialist</span>
+                    </div>
+                </div>
+
+                <div class="swiper-slide member-card">
+                    <div class="member-image">
+                        <img src="images/team-4.jpg" alt="Team Member">
+                        <div class="social-links">
+                            <a href="#" class="social-icon fab fa-facebook-f"></a>
+                            <a href="#" class="social-icon fab fa-twitter"></a>
+                            <a href="#" class="social-icon fab fa-instagram"></a>
+                            <a href="#" class="social-icon fab fa-linkedin"></a>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <h3 class="member-name">ABC</h3>
+                        <span class="member-role">specialist</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <section class="pricing-section" id="pricing">
+        <h2 class="section-title">pricing plans</h2>
+
+        <div class="pricing-container">
+            <div class="pricing-card">
+                <div class="card-header">
+                    <h3 class="plan-title">basic</h3>
+                    <div class="plan-price">
+                        <span class="currency">$</span>
+                        <span class="amount">200</span>
+                        <span class="duration">/pack</span>
+                    </div>
+                </div>
+                <div class="plan-features">
+
+                    <ul>
+                        <li><i class="fas fa-check"></i>Dental alignment consultant</li>
+                        <li><i class="fas fa-check"></i>Oral health professionals</li>
+                        <li><i class="fas fa-check"></i>Aesthetic dental care</li>
+                        <li><i class="fas fa-check"></i>Cavity evaluation</li>
+                    </ul>
+                </div>
+                <a href="#" class="plan-btn btn">choose plan</a>
+            </div>
+
+            <div class="pricing-card featured">
+                <div class="popular-badge">Most Popular</div>
+                <div class="card-header">
+                    <h3 class="plan-title">standard</h3>
+                    <div class="plan-price">
+                        <span class="currency">$</span>
+                        <span class="amount">550</span>
+                        <span class="duration">/pack</span>
+                    </div>
+                </div>
+                <div class="plan-features">
+                    <ul>
+                        <li><i class="fas fa-check"></i>Dental alignment consultant</li>
+                        <li><i class="fas fa-check"></i>Oral health professionals</li>
+                        <li><i class="fas fa-check"></i>Aesthetic dental care</li>
+                        <li><i class="fas fa-check"></i>Cavity evaluation</li>
+                    </ul>
+                </div>
+                <a href="#" class="plan-btn btn">choose plan</a>
+            </div>
+
+            <div class="pricing-card">
+                <div class="card-header">
+                    <h3 class="plan-title">premium</h3>
+                    <div class="plan-price">
+                        <span class="currency">$</span>
+                        <span class="amount">750</span>
+                        <span class="duration">/Pack</span>
+                    </div>
+                </div>
+                <div class="plan-features">
+                    <ul>
+                        <li><i class="fas fa-check"></i>Dental alignment consultant</li>
+                        <li><i class="fas fa-check"></i>Oral health professionals</li>
+                        <li><i class="fas fa-check"></i>Aesthetic dental care</li>
+                        <li><i class="fas fa-check"></i>Cavity evaluation</li>
+                    </ul>
+                </div>
+                <a href="#" class="plan-btn btn">choose plan</a>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="blog-section" id="blog">
+        <h2 class="section-title">Latest Articles</h2>
+
+        <div class="blog-grid">
+            <article class="blog-card">
+                <div class="card-image">
+                    <img src="images/blog-1.jpg" alt="Blog Post">
+                    <div class="image-overlay"></div>
+                </div>
+                <div class="card-content">
+                    <div class="post-category">
+                        <a href="#" class="category-tag">Disease</a>
+                    </div>
+                    <div class="post-meta">
+                        <a href="#" class="meta-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>03rd Feb, 2025</span>
+                        </a>
+                        <a href="#" class="meta-item">
+                            <i class="fas fa-user"></i>
+                            <span>by Admin</span>
+                        </a>
+                    </div>
+                    <h3 class="post-title">The Most Common Problems?</h3>
+                    <p class="post-excerpt">Lorem ipsum dolor, sit amet consectetur adipisicing elit. At cum atque sed
+                        veniam sunt, maxime natus excepturi maiores voluptatum.</p>
+                    <a href="#" class="read-more-btn btn">Read Article</a>
+                </div>
+            </article>
+
+
+            <article class="blog-card">
+                <div class="card-image">
+                    <img src="images/blog-1.jpg" alt="Blog Post">
+                    <div class="image-overlay"></div>
+                </div>
+                <div class="card-content">
+                    <div class="post-category">
+                        <a href="#" class="category-tag">Disease</a>
+                    </div>
+                    <div class="post-meta">
+                        <a href="#" class="meta-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>03rd Feb, 2025</span>
+                        </a>
+                        <a href="#" class="meta-item">
+                            <i class="fas fa-user"></i>
+                            <span>by Admin</span>
+                        </a>
+                    </div>
+                    <h3 class="post-title">The Most Common Problems?</h3>
+                    <p class="post-excerpt">Lorem ipsum dolor, sit amet consectetur adipisicing elit. At cum atque sed
+                        veniam sunt, maxime natus excepturi maiores voluptatum.</p>
+                    <a href="#" class="read-more-btn btn">Read Article</a>
+                </div>
+            </article>
+
+
+
+            <article class="blog-card">
+                <div class="card-image">
+                    <img src="images/blog-1.jpg" alt="Blog Post">
+                    <div class="image-overlay"></div>
+                </div>
+                <div class="card-content">
+                    <div class="post-category">
+                        <a href="#" class="category-tag">Disease</a>
+                    </div>
+                    <div class="post-meta">
+                        <a href="#" class="meta-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>03rd Feb, 2025</span>
+                        </a>
+                        <a href="#" class="meta-item">
+                            <i class="fas fa-user"></i>
+                            <span>by Admin</span>
+                        </a>
+                    </div>
+                    <h3 class="post-title">The Most Common Problems?</h3>
+                    <p class="post-excerpt">Lorem ipsum dolor, sit amet consectetur adipisicing elit. At cum atque sed
+                        veniam sunt, maxime natus excepturi maiores voluptatum.</p>
+                    <a href="#" class="read-more-btn btn">Read Article</a>
+                </div>
+            </article>
+
+
+        </div>
+    </section>
+
+
+
+
+    <section class="appointment-section" id="contact">
+        <h2 class="section-title">Book Appointment</h2>
+
+        <div class="form-container">
+            <form class="appointment-form">
+                <div class="form-group">
+                    <label class="form-label">Your Name</label>
+                    <div class="name-inputs">
+                        <div class="input-wrapper">
+                            <input type="text" placeholder="First Name" class="form-input">
+                            <i class="fas fa-user input-icon"></i>
+                        </div>
+                        <div class="input-wrapper">
+                            <input type="text" placeholder="Last Name" class="form-input">
+                            <i class="fas fa-user input-icon"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Your Email</label>
+                    <div class="input-wrapper">
+                        <input type="email" placeholder="Enter your email" class="form-input">
+                        <i class="fas fa-envelope input-icon"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Your Phone</label>
+                    <div class="input-wrapper">
+                        <input type="tel" placeholder="Enter your number" class="form-input">
+                        <i class="fas fa-phone input-icon"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Appointment Date</label>
+                    <div class="input-wrapper">
+                        <input type="datetime-local" class="form-input">
+                        <i class="fas fa-calendar input-icon"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn btn">
+                    <span>Book Appointment</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+        </div>
+    </section>
+
+
+
+    <script>
+        // Create alert container if it doesn't exist
+        if (!document.getElementById('alert-container')) {
+            const alertContainer = document.createElement('div');
+            alertContainer.id = 'alert-container';
+            document.body.appendChild(alertContainer);
+        }
+
+        function showNotification(type, title, message, duration = 5000) {
+            const alertHTML = `
+                <div class="custom-alert ${type}">
+                    <div class="alert-icon">
+                        ${type === 'success' ? '✅' : '❌'}
+                    </div>
+                    <div class="alert-content">
+                        <h3 class="alert-title">${title}</h3>
+                        <p class="alert-message">${message}</p>
+                    </div>
+                    <button class="alert-close" aria-label="Close">×</button>
+                    <div class="alert-progress"></div>
+                </div>
+            `;
+
+            const alertContainer = document.getElementById('alert-container');
+            alertContainer.insertAdjacentHTML('beforeend', alertHTML);
+
+            const alertElement = alertContainer.lastElementChild;
+
+            // Show the alert
+            setTimeout(() => alertElement.classList.add('show'), 10);
+
+            // Setup close button
+            const closeButton = alertElement.querySelector('.alert-close');
+            closeButton.addEventListener('click', () => {
+                alertElement.classList.remove('show');
+                setTimeout(() => alertElement.remove(), 400);
+            });
+
+            // Auto close after duration
+            setTimeout(() => {
+                if (alertElement) {
+                    alertElement.classList.remove('show');
+                    setTimeout(() => alertElement.remove(), 400);
+                }
+            }, duration);
+        }
+
+        // Update your form submission code
+        document.querySelector('.appointment-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = {
+                firstName: e.target.querySelector('input[placeholder="First Name"]').value,
+                lastName: e.target.querySelector('input[placeholder="Last Name"]').value,
+                email: e.target.querySelector('input[type="email"]').value,
+                phone: e.target.querySelector('input[type="tel"]').value,
+                appointmentDate: e.target.querySelector('input[type="datetime-local"]').value
+            };
+
+            try {
+                const response = await fetch('http://localhost:5000/api/appointments', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showNotification(
+                        'success',
+                        'Appointment Scheduled!',
+                        'Your appointment has been successfully scheduled. Please check your email for confirmation details.',
+                        5000
+                    );
+                    e.target.reset();
+                } else {
+                    showNotification(
+                        'error',
+                        'Scheduling Error',
+                        data.message || 'Error scheduling appointment. Please try again.',
+                        5000
+                    );
+                }
+            } catch (error) {
+                showNotification(
+                    'error',
+                    'Connection Error',
+                    'Unable to connect to the server. Please try again later.',
+                    5000
+                );
+                console.error('Error:', error);
+            }
+        });
+    </script>
+
+
+
+    <footer class="site-footer">
+        <div class="footer-waves">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+                <path fill="#ffffff" fill-opacity="1"
+                    d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z">
+                </path>
+            </svg>
+        </div>
+
+        <div class="footer-content">
+            <div class="footer-info-container">
+                <div class="footer-col brand-col">
+                    <div class="footer-logo">
+                        <i class="fas fa-tooth"></i>
+                        <span>DentalCare</span>
+                    </div>
+                    <p class="footer-description">
+                        Providing quality dental care and creating beautiful smiles since 2000. Your trusted partner in
+                        oral health.
+                    </p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon-link" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-icon-link" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-icon-link" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-icon-link" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h3 class="footer-title">Quick Contact</h3>
+                    <ul class="contact-list">
+                        <li class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <p>1234 Dental Street, Dental City, Health State 789014</p>
+                        </li>
+                        <li class="contact-item">
+                            <i class="fas fa-phone-alt"></i>
+                            <div class="contact-info">
+                                <a href="tel:+911234567890">+91 123 456 7890</a>
+                                <a href="tel:+911234567890">+91 123 456 7890</a>
+                            </div>
+                        </li>
+                        <li class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div class="contact-info">
+                                <a href="mailto:something@gmail.com">something@gmail.com</a>
+                                <a href="mailto:something@gmail.com">something@gmail.com</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3 class="footer-title">Working Hours</h3>
+                    <ul class="hours-list">
+                        <li class="hours-item">
+                            <span class="day">Monday - Friday</span>
+                            <span class="time">8:00 AM - 8:00 PM</span>
+                        </li>
+                        <li class="hours-item">
+                            <span class="day">Saturday</span>
+                            <span class="time">9:00 AM - 6:00 PM</span>
+                        </li>
+                        <li class="hours-item">
+                            <span class="day">Sunday</span>
+                            <span class="time">Emergency Only</span>
+                        </li>
+                        <li class="hours-item emergency">
+                            <i class="fas fa-ambulance"></i>
+                            <span>24/7 Emergency Service</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <p class="copyright">
+                    © <span id="current-year">2026</span> DentalCare. Created by
+                    <a href="#" class="creator-link">Tuhin Mallick</a>
+                </p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+
+
+
+    <script src="https://unpkg.com/swipersomething@gmail.com7/swiper-bundle.min.js"></script>
+
+    <script src="js/dental.js"></script>
+
+</body>
+
+</html>
