@@ -111,7 +111,7 @@ app.get('/', (req, res) => {
 // Final URL:
 // POST https://dentist-website-backend.onrender.com/api/appointments
 
-app.use('/api/appointments', appointmentRoutes);
+app.use('/api', appointmentRoutes);
 
 
 // =====================================
